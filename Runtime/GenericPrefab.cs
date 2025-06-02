@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 #if USE_ASSETBUNDLE
 using AssetBundles;
 #endif
@@ -215,120 +214,17 @@ namespace alpoLib.Res
 			return null;
 		}
 
-		public static async Task<T> InstantiatePrefabAsync<T>(string key = null, Transform parent = null)
+		public static async Awaitable<T> InstantiatePrefabAsync<T>(string key = null, Transform parent = null)
 			where T : UnityEngine.Object
 		{
 			return (T)await LoadAndInstantiateAsync<T>(key, parent);
 		}
 
-		public static async Task<UnityEngine.Object> InstantiatePrefabAsync(Type type, string key = null,
+		public static async Awaitable<UnityEngine.Object> InstantiatePrefabAsync(Type type, string key = null,
 			Transform parent = null)
 		{
 			return await LoadAndInstantiateAsync(type, key, parent);
 		}
-
-		// public static T InstantiatePrefab_Resources<T>(Transform parent = null) where T : MonoBehaviour
-		// {
-		// 	return InstantiatePrefab_Resources(typeof(T), parent) as T;
-		// }
-
-		// public static T InstantiatePrefab_Resources<T>(string key, Transform parent = null) where T : MonoBehaviour
-		// {
-		// 	var path = GetPrefabPathFromKey(typeof(T), key);
-		// 	return LoadAndInstantiate_Resources<T>(path, parent);
-		// }
-
-		// public static UnityEngine.Object InstantiatePrefab_Resources(Type type, Transform parent = null)
-		// {
-		// 	string prefabKey;
-		// 	if (type.GetCustomAttribute<PrefabPathAttribute>() is { } attr)
-		// 	{
-		// 		LoadAndInstantiateAsync_Addressable<>()
-		// 		prefabKey = attr.Path.Replace(".prefab", string.Empty);
-		// 		return LoadAndInstantiate_Resources(type, prefabKey, parent);
-		// 	}
-		//
-		// 	var attrs = type.GetCustomAttributes<RandomPrefabPathAttribute>().ToList();
-		// 	var count = attrs.Count;
-		// 	if (count <= 0)
-		// 		return null;
-		//
-		// 	var index = Random.Range(0, count);
-		// 	var randomAttr = attrs[index];
-		// 	prefabKey = randomAttr.Path.Replace(".prefab", string.Empty);
-		// 	return LoadAndInstantiate_Resources(type, prefabKey, parent);
-		// }
-
-		// public static Task<T> LoadPrefabAsync_Addressable<T>(string key, Transform parent = null)
-		// 	where T : MonoBehaviour
-		// {
-		// 	var path = GetPrefabPathFromKey(typeof(T), key);
-		// 	return LoadAndInstantiateAsync_Addressable<T>(path, parent);
-		// }
-
-		// public static void LoadPrefabAsync_Addressable<T>(string key, Action<T> completeAction, Transform parent = null)
-		// 	where T : MonoBehaviour
-		// {
-		// 	var path = GetPrefabPathFromKey(typeof(T), key);
-		// 	LoadAndInstantiateAsync_Addressable(typeof(T), path, t => completeAction?.Invoke(t as T), parent);
-		// }
-		//
-		// public static T InstantiatePrefab_Addressable<T>(Transform parent = null) where T : MonoBehaviour
-		// {
-		// 	var type = typeof(T);
-		// 	if (type.GetCustomAttribute<PrefabPathAttribute>() is { } attr)
-		// 	{
-		// 		return LoadAndInstantiate_Addressable<T>(attr.Path, parent);
-		// 	}
-		//
-		// 	var attrs = type.GetCustomAttributes<RandomPrefabPathAttribute>().ToList();
-		// 	var count = attrs.Count;
-		// 	if (count <= 0)
-		// 		return null;
-		//
-		// 	var index = Random.Range(0, count);
-		// 	var randomAttr = attrs[index];
-		// 	return LoadAndInstantiate_Addressable<T>(randomAttr.Path, parent);
-		// }
-
-		// public static void LoadPrefabAsync_Addressable<T>(Action<T> completeAction, Transform parent = null)
-		// 	where T : MonoBehaviour
-		// {
-		// 	LoadPrefabAsync_Addressable(typeof(T), t => completeAction?.Invoke(t as T), parent);
-		// }
-
-		// public static void LoadPrefabAsync_Addressable(Type type, Action<MonoBehaviour> completeAction,
-		// 	Transform parent = null)
-		// {
-		// 	if (type.GetCustomAttribute<PrefabPathAttribute>() is { } attr)
-		// 	{
-		// 		LoadAndInstantiateAsync_Addressable(type, attr.Path, completeAction, parent);
-		// 		return;
-		// 	}
-		//
-		// 	var attrs = type.GetCustomAttributes<RandomPrefabPathAttribute>().ToList();
-		// 	var count = attrs.Count;
-		// 	if (count <= 0)
-		// 	{
-		// 		completeAction?.Invoke(null);
-		// 		return;
-		// 	}
-		//
-		// 	var index = Random.Range(0, count);
-		// 	var randomAttr = attrs[index];
-		// 	LoadAndInstantiateAsync_Addressable(type, randomAttr.Path, completeAction, parent);
-		// }
-
-		// private static T LoadAndInstantiate_Resources<T>(string path, Transform parent = null) where T : MonoBehaviour
-		// {
-		// 	return LoadAndInstantiate_Resources(typeof(T), path, parent) as T;
-		// }
-
-		// private static T LoadPrefab_Addressable<T>(string path) where T : UnityEngine.Object
-		// {
-		// 	var type = typeof(T);
-		// 	return (T)LoadPrefab_Addressable(type, path);
-		// }
 
 		private static UnityEngine.Object LoadPrefab_Addressable(Type type, string path)
 		{
@@ -350,35 +246,17 @@ namespace alpoLib.Res
 			return InstantiatePrefab(type, prefab, parent);
 		}
 
-		// private static T LoadAndInstantiate_Addressable<T>(string path, Transform parent = null) where T : MonoBehaviour
-		// {
-		// 	var type = typeof(T);
-		// 	var handle =
-		// 		Addressables.InstantiateAsync(path, new Vector3(-100000, -100000, 0), Quaternion.identity, parent);
-		// 	var go = handle.WaitForCompletion();
-		// 	if (!go)
-		// 		return null;
-		// 	var comp = go.GetComponent(type) as MonoBehaviour;
-		// 	if (!comp)
-		// 		return null;
-		//
-		// 	go.name = comp.name;
-		//
-		// 	return (T)comp;
-		// }
-
-		private static async Task<UnityEngine.Object> LoadAndInstantiateAsync<T>(string key = null,
+		private static async Awaitable<T> LoadAndInstantiateAsync<T>(string key = null,
 			Transform parent = null)
 			where T : UnityEngine.Object
 		{
 			var type = typeof(T);
-			return await LoadAndInstantiateAsync(type, key, parent);
+			return (T)await LoadAndInstantiateAsync(type, key, parent);
 		}
 
-		private static async Task<UnityEngine.Object> LoadAndInstantiateAsync(Type type, string key = null,
+		private static async Awaitable<UnityEngine.Object> LoadAndInstantiateAsync(Type type, string key = null,
 			Transform parent = null)
 		{
-			var tcs = new TaskCompletionSource<UnityEngine.Object>();
 			var source = PrefabPathSource.Addressable;
 			var path = string.Empty;
 			var subPath = string.Empty;
@@ -425,12 +303,19 @@ namespace alpoLib.Res
 				}
 			}
 
-			if (triggered)
-				Func(type, source, path, subPath, tcs.SetResult, parent);
-			else
-				tcs.SetResult(null);
+			if (!triggered)
+				return null;
 
-			return await tcs.Task;
+			UnityEngine.Object resultObject = null;
+			var complete = false;
+			Func(type, source, path, subPath, result =>
+			{
+				complete = true;
+				resultObject = result;
+			}, parent);
+			await AwaitableHelper.WaitUntil(() => complete);
+
+			return resultObject;
 
 			void Func(Type t, PrefabPathSource s, string p, string sp, Action<UnityEngine.Object> cb,
 				Transform parentInner)
@@ -544,10 +429,5 @@ namespace alpoLib.Res
 
 			return comp;
 		}
-
-		//private static T InstantiatePrefab<T>(UnityEngine.Object prefab, Transform parent = null) where T : MonoBehaviour
-		//{
-		//	return InstantiatePrefab(typeof(T), prefab, parent) as T;
-		//}
 	}
 }
