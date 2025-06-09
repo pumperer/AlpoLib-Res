@@ -4,7 +4,7 @@
 - Mono 상속된 클래스 하나와 addressable, resouces 에 포함된 하나 (또는 다수)의 prefab과 연결하는 방식입니다.
 - 클래스 속성으로 PrefabPathAttribute 를 선언합니다.
 ```cs
-[PrefabPath("ADDR_PATH")]
+[PrefabPath("ADDR_PATH", PrefabPathSource.Addressable)]
 public class MyPrefab : MonoBehaviour
 {
 }
