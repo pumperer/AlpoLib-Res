@@ -2,7 +2,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UnityEngine
 {
-    internal static class AddressableLoaderHelper
+    public static class AddressableLoaderHelper
     {
         public static async Awaitable Wait(this AsyncOperationHandle operation)
         {
